@@ -11,21 +11,7 @@
 - 🔄 支持重新生成功能
 - ✅ 实时语法验证和错误提示
 
-## 技术栈
-
-### 前端
-- React 18
-- Ant Design (antd)
-- Less
-- Vite
-- Mermaid.js
-- PlantUML
-
-### 后端
-- Express.js
-- CORS 支持
-- Axios (HTTP 客户端)
-- 环境变量配置
+<img width="1011" height="1031" alt="image" src="https://github.com/user-attachments/assets/3bde1e97-0458-43f9-a62e-bc09330d3e29" />
 
 ## 快速开始
 
@@ -44,6 +30,8 @@ cd ../frontend && npm install
 ### 2. 配置环境变量
 
 在 `backend` 目录下创建 `.env` 文件：
+
+[API KEY](https://bigmodel.cn/usercenter/proj-mgmt/apikeys)
 
 ```env
 PORT=3001
