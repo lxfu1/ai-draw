@@ -5,9 +5,10 @@ import React, {
   forwardRef,
   useImperativeHandle
 } from 'react';
+import { toast } from 'react-hot-toast';
 import mermaid from 'mermaid';
 import plantumlEncoder from 'plantuml-encoder';
-import { Alert, message } from 'antd';
+import { Alert } from 'antd';
 import { downloadAsImage, downloadPlantUMLImage } from '../utils/download';
 
 const DiagramRenderer = forwardRef(({ code, type }, ref) => {
@@ -18,7 +19,7 @@ const DiagramRenderer = forwardRef(({ code, type }, ref) => {
 
   const downloadDiagram = async () => {
     if (!code) {
-      message.error('没有可下载的图表');
+      toast.error('没有可下载的图表');
       return;
     }
 
@@ -27,16 +28,16 @@ const DiagramRenderer = forwardRef(({ code, type }, ref) => {
         const svgElement = containerRef.current?.querySelector('svg');
         if (svgElement) {
           await downloadAsImage(svgElement, 'mermaid-diagram');
-          message.success('图表下载成功');
+          toast.success('图表下载成功');
         } else {
-          message.error('无法找到可下载的图表');
+          toast.error('无法找到可下载的图表');
         }
       } else if (type === 'plantuml' && currentImageUrl) {
         await downloadPlantUMLImage(currentImageUrl, 'plantuml-diagram');
-        message.success('图表下载成功');
+        toast.success('图表下载成功');
       }
     } catch (error) {
-      message.error('下载失败，请重试');
+      toast.error('下载失败，请重试');
       console.error('Download error:', error);
     }
   };
@@ -196,26 +197,22 @@ const DiagramRenderer = forwardRef(({ code, type }, ref) => {
         }}
       />
 
-      <div style={{ marginTop: 16, textAlign: 'left' }}>
+      <div
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          background: 'rgb(245, 245, 245)',
+          padding: 12
+        }}
+      >
         <details>
           <summary
             style={{ cursor: 'pointer', color: '#666', fontSize: '12px' }}
           >
             查看生成的代码
           </summary>
-          <pre
-            style={{
-              background: '#f5f5f5',
-              padding: '12px',
-              borderRadius: '4px',
-              fontSize: '12px',
-              overflow: 'auto',
-              maxHeight: '200px',
-              marginTop: '8px'
-            }}
-          >
-            {code}
-          </pre>
+          <pre style={{ marginTop: 12 }}>{code}</pre>
         </details>
       </div>
     </div>

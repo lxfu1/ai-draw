@@ -1,10 +1,7 @@
 import React, { useState, useRef } from 'react';
 import {
   Layout,
-  Typography,
   Card,
-  Row,
-  Col,
   Input,
   Button,
   Select,
@@ -18,6 +15,7 @@ import {
   CopyOutlined,
   DownloadOutlined
 } from '@ant-design/icons';
+import toast, { Toaster } from 'react-hot-toast';
 import DiagramRenderer from './components/DiagramRenderer';
 import { generateDiagram } from './services/api';
 import './App.css';
@@ -28,26 +26,16 @@ const { Option } = Select;
 
 function App() {
   const [description, setDescription] = useState('');
-  const [type, setType] = useState('plantuml');
+  const [type, setType] = useState('mermaid');
   const [loading, setLoading] = useState(false);
-  // const [diagramCode, setDiagramCode] = useState(`flowchart TD
-  //   A[用户输入账号密码] --> B[前端校验格式]
-  //   B --> C[发送请求到后端]
-  //   C --> D[后端验证用户信息]
-  //   D -->|验证成功| E[生成 token 返回]
-  //   D -->|验证失败| F[返回错误信息]
-  //   E --> G[前端跳转页面]
-  //   F --> H[前端显示错误]`);
-  const [diagramCode, setDiagramCode] = useState(`@startuml
-start
-:A开始;
-:处理流程;
-if (条件判断?) then (是)
-  :执行操作A;
-else (否)
-  :执行操作B;
-endif
-:结束流程;`);
+  const [diagramCode, setDiagramCode] = useState(`flowchart TD
+    A[用户输入账号密码] --> B[前端校验格式]
+    B --> C[发送请求到后端]
+    C --> D[后端验证用户信息]
+    D -->|验证成功| E[生成 token 返回]
+    D -->|验证失败| F[返回错误信息]
+    E --> G[前端跳转页面]
+    F --> H[前端显示错误]`);
   const [error, setError] = useState('');
   const diagramRef = useRef(null);
 
@@ -80,14 +68,13 @@ endif
 
   const handleCopyCode = () => {
     if (!diagramCode) return;
-
     navigator.clipboard
       .writeText(diagramCode)
       .then(() => {
-        message.success('代码已复制到剪贴板');
+        toast.success('代码已复制到剪贴板');
       })
       .catch(() => {
-        message.error('复制失败');
+        toast.error('复制失败');
       });
   };
 
@@ -95,7 +82,7 @@ endif
     if (diagramRef.current) {
       diagramRef.current.downloadDiagram();
     } else {
-      message.error('没有可下载的图表');
+      toast.error('没有可下载的图表');
     }
   };
 
@@ -221,6 +208,7 @@ endif
           </div>
         </Card>
       </Content>
+      <Toaster />
     </Layout>
   );
 }
